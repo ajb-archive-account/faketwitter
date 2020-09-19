@@ -1,26 +1,38 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% block head_title %}
 (Fake) Twitter Rulezzz!!!
 {% endblock head_title %}
 
-{% block content %} 
+{% block content %}
 See what’s not happening in the world right now.
 
+<div id="tweets">
+    Replace me
+</div>
+
 <script>
-const xhr = new XMLHttpRequest()
-const method = 'GET'
-const url = "/tweets"
-const responseType = "json"
+    const tweetsElement = document.getElementById("tweets")
+    tweetsElement.innerHTML = 'Loading...'
 
-xhr.responseType = responseType
-xhr.open(method, url)
-xhr.onload = function() {
-    const serverResponse = xhr.response
-    let listedItems = serverResponse.response
-    console.log(listedItems)
-}
+    let el1 = "<h1>Hello World once</h1>"
+    let el2 = "<h1>Hello World twice</h1>"
+    let el3 = "<h1>Hello World three times a lady</h1>"
+    tweetsElement.innerHTML = el1 + el2 + el3
 
-xhr.send()
+    const xhr = new XMLHttpRequest()
+    const method = 'GET'
+    const url = "/tweets"
+    const responseType = "json"
+
+    xhr.responseType = responseType
+    xhr.open(method, url)
+    xhr.onload = function () {
+        const serverResponse = xhr.response
+        let listedItems = serverResponse.response
+        console.log(listedItems)
+    }
+
+    xhr.send()
 </script>
 {% endblock content %}
