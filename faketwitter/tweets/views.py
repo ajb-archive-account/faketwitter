@@ -16,10 +16,15 @@ def home_view(request, *args, **kwargs):
 
 def tweet_create_view(request, *args, **kwargs):
     form = TweetForm(request.POST or None)
+    # print('post data is', request.POST)
+    next_url = request.POST.get('next') or None
+    print('next url is', next_url)
     if form.is_valid():
         obj = form.save(commit=False)
         # Do other form related logic here.
         obj.save()
+        if next_url != None:
+            return redirect(next_url)
         form = TweetForm()
     return render(request, 'components/form.html', context={"form": form})
 

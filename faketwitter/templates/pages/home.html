@@ -19,6 +19,17 @@ ajb.(Fake)-Twitter
   </div>
 </div>
 
+<div class="row mb-5">
+  <div class="col-md-4 mx-auto col-10">
+    <form class="form" method="POST" action="/create-tweet">
+      {% csrf_token %}
+      <input type="hidden" value="/" name="next">
+      <textarea class="form-control" name="content" placeholder="Tweet Here!"></textarea>
+      <button class="btn btn-primary" type="submit">Tweet</button>
+    </form>
+  </div>
+</div>
+
 <div class="row" id="tweets">
   Loading...
 </div>
