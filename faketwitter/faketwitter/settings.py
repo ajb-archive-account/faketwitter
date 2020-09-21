@@ -54,7 +54,7 @@ SECRET_KEY = find_or_create_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ajb.app']
 
 
 # Application definition
