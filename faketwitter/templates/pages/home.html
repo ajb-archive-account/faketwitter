@@ -5,34 +5,51 @@
 {% endblock head_title %}
 
 {% block content %}
-See what’s not happening in the world right now.
+See what’s not happening in the world
+right now.
 
-<div id="tweets">
-    Replace me
-</div>
+<div id="tweets">Loading...</div>
 
 <script>
-    const tweetsElement = document.getElementById("tweets")
-    tweetsElement.innerHTML = 'Loading...'
+  const tweetsElement = document.getElementById('tweets');
+  // tweetsElement.innerHTML = 'Loading...'
+  // let el1 = "<h1>Hello World once</h1>"
+  // let el2 = "<h1>Hello World twice</h1>"
+  // let el3 = "<h1>Hello World three times a lady</h1>"
+  // tweetsElement.innerHTML = el1 + el2 + el3
 
-    let el1 = "<h1>Hello World once</h1>"
-    let el2 = "<h1>Hello World twice</h1>"
-    let el3 = "<h1>Hello World three times a lady</h1>"
-    tweetsElement.innerHTML = el1 + el2 + el3
+  const xhr = new XMLHttpRequest();
+  const method = 'GET';
+  const url = '/tweets';
+  const responseType = 'json';
 
-    const xhr = new XMLHttpRequest()
-    const method = 'GET'
-    const url = "/tweets"
-    const responseType = "json"
+  function formatTweetElement(tweet) {
+    let formattedTweet = '<div class="mb-4 tweet" id="tweet-' + tweet.id + '"><p>' + tweet.content + '</p></div>';
 
-    xhr.responseType = responseType
-    xhr.open(method, url)
-    xhr.onload = function () {
-        const serverResponse = xhr.response
-        let listedItems = serverResponse.response
-        console.log(listedItems)
+    return formattedTweet
+  }
+
+  xhr.responseType = responseType;
+  xhr.open(method, url);
+  xhr.onload = function () {
+    const serverResponse = xhr.response;
+    const listedItems = serverResponse.response;
+    let finalTweetStr = '';
+
+    for (let i = 0; i < listedItems.length; i++) {
+      // console.log(i);
+      // console.log(listedItems[i]);
+      let tweetObj = listedItems[i];
+      let currentItem = formatTweetElement(tweetObj);
+
+      finalTweetStr += currentItem;
     }
 
-    xhr.send()
+    // console.log(listedItems)
+    tweetsElement.innerHTML = finalTweetStr;
+  };
+
+  xhr.send();
 </script>
+
 {% endblock content %}
