@@ -23,9 +23,21 @@ right now.
   const url = '/tweets';
   const responseType = 'json';
 
-  function formatTweetElement(tweet) {
-    let formattedTweet = '<div class="mb-4 tweet" id="tweet-' + tweet.id + '"><p>' + tweet.content + '</p></div>';
+  function handleDidLike(tweet_id, currentCount) {
+    console.log(tweet_id, currentCount);
+    return
+  }
 
+  function likeBtn(tweet) {
+    return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" +
+      tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>"
+  }
+
+  function formatTweetElement(tweet) {
+    let formattedTweet = "<div class='mb-4 tweet' id='tweet-" + tweet.id
+      + "'><p>" + tweet.content +
+      "</p><div class='btn-group'>" + likeBtn(tweet) +
+      "</div></div>"
     return formattedTweet
   }
 
@@ -47,7 +59,7 @@ right now.
 
     // console.log(listedItems)
     tweetsElement.innerHTML = finalTweetStr;
-  };
+  }
 
   xhr.send();
 </script>
