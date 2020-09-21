@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 
 {% block head_title %}
-(Fake) Twitter Rulezzz!!!
+ajb.(Fake)-Twitter
 {% endblock head_title %}
 
 {% block content %}
-See what’s not happening in the world
-right now.
 
-<div id="tweets">Loading...</div>
+<div class="row text-center">
+  <div class="col">
+    <h1>Welcome to (Fake) Twitter</h1>
+  </div>
+</div>
+
+<div class="row text-center">
+  <div class="col">
+    <h2>See what’s <em>not</em> happening in the world
+      right now</h2>
+  </div>
+</div>
+
+<div class="row" id="tweets">
+  Loading...
+</div>
 
 <script>
   const tweetsElement = document.getElementById('tweets');
@@ -30,15 +43,15 @@ right now.
 
   function likeBtn(tweet) {
     return "<button class='btn btn-primary btn-sm' onclick=handleDidLike(" +
-      tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>"
+      tweet.id + "," + tweet.likes + ")>" + tweet.likes + " Likes</button>";
   }
 
   function formatTweetElement(tweet) {
-    let formattedTweet = "<div class='mb-4 tweet' id='tweet-" + tweet.id
+    let formattedTweet = "<div class='col-10 col-md-8 mx-auto border py-3 mb-4 tweet' id='tweet-" + tweet.id
       + "'><p>" + tweet.content +
       "</p><div class='btn-group'>" + likeBtn(tweet) +
-      "</div></div>"
-    return formattedTweet
+      "</div></div>";
+    return formattedTweet;
   }
 
   xhr.responseType = responseType;
