@@ -21,7 +21,7 @@ ajb.(Fake)-Twitter
 
 <div class="row mb-5">
   <div class="col-md-4 mx-auto col-10">
-    <form class="form" method="POST" action="/create-tweet">
+    <form class="form" id="tweet-create-form" method="POST" action="/create-tweet">
       {% csrf_token %}
       <input type="hidden" value="/" name="next">
       <textarea class="form-control" name="content" placeholder="Tweet Here!"></textarea>
@@ -35,17 +35,60 @@ ajb.(Fake)-Twitter
 </div>
 
 <script>
-  const tweetsElement = document.getElementById('tweets');
-  // tweetsElement.innerHTML = 'Loading...'
-  // let el1 = "<h1>Hello World once</h1>"
-  // let el2 = "<h1>Hello World twice</h1>"
-  // let el3 = "<h1>Hello World three times a lady</h1>"
-  // tweetsElement.innerHTML = el1 + el2 + el3
 
-  const xhr = new XMLHttpRequest();
-  const method = 'GET';
-  const url = '/tweets';
-  const responseType = 'json';
+  function handleTweetCreateFormDidSubmit(event) {
+    event.preventDefault();
+    const myForm = event.target;
+    const myFormData = new FormData(myForm);
+    const url = myForm.getAttribute("action");
+    const method = myForm.getAttribute("method");
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.onload = function () {
+      const serverResponse = xhr.response;
+      // console.log(serverResponse);
+      const tweetsEl = document.getElementById('tweets');
+      loadTweets(tweetsEl)
+    }
+    xhr.send(myFormData)
+
+  }
+
+  const tweetCreateFormEl = document.getElementById("tweet-create-form");
+  tweetCreateFormEl.addEventListener("submit", handleTweetCreateFormDidSubmit);
+
+  const tweetsEl = document.getElementById('tweets');
+
+  function loadTweets(tweetsElement) {
+    const xhr = new XMLHttpRequest();
+    const method = 'GET';
+    const url = '/tweets';
+    const responseType = 'json';
+
+    xhr.responseType = responseType;
+    xhr.open(method, url);
+    xhr.onload = function () {
+      const serverResponse = xhr.response;
+      const listedItems = serverResponse.response;
+      let finalTweetStr = '';
+
+      for (let i = 0; i < listedItems.length; i++) {
+        // console.log(i);
+        // console.log(listedItems[i]);
+        let tweetObj = listedItems[i];
+        let currentItem = formatTweetElement(tweetObj);
+
+        finalTweetStr += currentItem;
+      }
+
+      // console.log(listedItems)
+      tweetsElement.innerHTML = finalTweetStr;
+    }
+
+    xhr.send();
+  }
+
+  loadTweets(tweetsEl);
 
   function handleDidLike(tweet_id, currentCount) {
     console.log(tweet_id, currentCount);
@@ -65,27 +108,7 @@ ajb.(Fake)-Twitter
     return formattedTweet;
   }
 
-  xhr.responseType = responseType;
-  xhr.open(method, url);
-  xhr.onload = function () {
-    const serverResponse = xhr.response;
-    const listedItems = serverResponse.response;
-    let finalTweetStr = '';
 
-    for (let i = 0; i < listedItems.length; i++) {
-      // console.log(i);
-      // console.log(listedItems[i]);
-      let tweetObj = listedItems[i];
-      let currentItem = formatTweetElement(tweetObj);
-
-      finalTweetStr += currentItem;
-    }
-
-    // console.log(listedItems)
-    tweetsElement.innerHTML = finalTweetStr;
-  }
-
-  xhr.send();
 </script>
 
 {% endblock content %}
