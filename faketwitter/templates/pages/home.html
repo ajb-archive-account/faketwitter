@@ -24,7 +24,7 @@ ajb.(Fake)-Twitter
     <form class="form" id="tweet-create-form" method="POST" action="/create-tweet">
       {% csrf_token %}
       <input type="hidden" value="/" name="next">
-      <textarea class="form-control" name="content" placeholder="Tweet Here!"></textarea>
+      <textarea required="required" class="form-control" name="content" placeholder="Tweet Here!"></textarea>
       <button class="btn btn-primary" type="submit">Tweet</button>
     </form>
   </div>
@@ -51,10 +51,10 @@ ajb.(Fake)-Twitter
     xhr.onload = function () {
       if (xhr.status === 201) {
         const newTweetJson = xhr.response;
-        // const newTweetJson = JSON.parse(newTweet)
-        console.log(newTweetJson.likes); //undefined
-        newTweetElement = formatTweetElement(newTweetJson);
-        console.log(newTweetElement);
+        const newTweetElement = formatTweetElement(newTweetJson);
+        const ogHtml = tweetsContainerElement.innerHTML;
+        tweetsContainerElement.innerHTML = newTweetElement + ogHtml;
+        myForm.reset();
       }
     }
     xhr.send(myFormData)
