@@ -12,6 +12,7 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 def home_view(request, *args, **kwargs):
     """Set the homepage view"""
+    print(request.user)
     # return HttpResponse("<h1>Hello World</h1>")
     return render(request, "pages/home.html", context={}, status=200)
 
