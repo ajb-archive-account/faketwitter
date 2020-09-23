@@ -16,10 +16,11 @@ def home_view(request, *args, **kwargs):
 
 
 def tweet_create_view(request, *args, **kwargs):
-    """ Renders the tweet input form and allows manipulation by the user. 
+    """ REST API Create view.
 
-    Anon user default to none, associate not authenticated users
-    Associate authenticated users to form object
+    Renders the tweet input form and allows manipulation by the user. 
+    Anon user default to none, associate not authenticated users.
+    Associate authenticated users to form object.
     """
     user = request.user
 

@@ -85,11 +85,13 @@ ajb.(Fake)-Twitter
         } else {
           alert("An error occurred. Please try again.");
         }
+      } else if (xhr.status === 401) {
+        alert("Please log-in to tweet");
+        window.location.href = '/login';
       } else if (xhr.status === 500) {
         alert("There was a server error. Please try again.");
       }
     }
-
     xhr.onerror = function() {
       alert("An error has occurred. Please try again later.")
     }
@@ -128,7 +130,6 @@ ajb.(Fake)-Twitter
       // console.log(listedItems)
       tweetsElement.innerHTML = finalTweetStr;
     }
-
     xhr.send();
   }
 
@@ -154,5 +155,4 @@ ajb.(Fake)-Twitter
 
 
 </script>
-
 {% endblock content %}
