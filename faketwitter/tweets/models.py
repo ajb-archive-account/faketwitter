@@ -6,11 +6,19 @@ User = settings.AUTH_USER_MODEL
 
 
 class Tweet(models.Model):
-    """Add user inputted tweet to the database."""
+    """Add user inputted tweet to the database.
+
+    Maps to SQL data
+    """
     # id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # Multiple user tweets
+    user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
+    # TODO: remove default=1, default user - Jankey. (Means anyone can tweet
+    # without logging in.)
+
+    # Multiple user tweets (ForeignKey)
     # Set to models.CASCADE if SET_NULL is causing issues (del null=True)
+    # CASCADE, if user is deleted, all tweets will be deleted
+
     content = models.TextField(blank=True, null=True)
     image = models.FileField(upload_to='images/', blank=True, null=True)
 
