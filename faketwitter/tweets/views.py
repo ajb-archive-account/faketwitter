@@ -12,12 +12,23 @@ ALLOWED_HOSTS = settings.ALLOWED_HOSTS
 
 def home_view(request, *args, **kwargs):
     """Set the homepage view"""
-    # print(request.user)
     return render(request, "pages/home.html", context={}, status=200)
 
 
 def tweet_create_view(request, *args, **kwargs):
-    """ Renders the tweet input form and allows manipulation by the user. """
+    """ Renders the tweet input form and allows manipulation by the user. 
+
+    Anon user default to none, associate not authenticated users
+    Associate authenticated users to form object
+    """
+    user = request.user
+
+    if not request.user.is_authenticated:
+        user = None
+        if request.is_ajax():
+            return JsonResponse({}, status=401)
+        return redirect(settings.LOGIN_URL)
+
     form = TweetForm(request.POST or None)
     # print('post data is', request.POST)
     next_url = request.POST.get('next') or None
@@ -25,6 +36,7 @@ def tweet_create_view(request, *args, **kwargs):
     if form.is_valid():
         obj = form.save(commit=False)
         # Do other form related logic here.
+        obj.user = user
         obj.save()
         if request.is_ajax():
             return JsonResponse(obj.serialize(), status=201)

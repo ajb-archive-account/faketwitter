@@ -55,6 +55,7 @@ SECRET_KEY = find_or_create_secret_key()
 DEBUG = True
 
 ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '.ajb.app']
+LOGIN_URL = '/login'
 
 
 # Application definition
